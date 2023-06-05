@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const axios = require("axios");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const config = require("./config/key");
@@ -20,8 +19,8 @@ const start = async () => {
   try {
     const dbc = await dbConnect(config.mongoURI);
     app.listen(port, () => console.log(`Server is listening on port ${port}`));
-    // setImmediate(setAllBdChannels);
-    // setImmediate(setAllWorldChannels);
+    setImmediate(setAllBdChannels);
+    setImmediate(setAllWorldChannels);
   } catch (error) {
     console.log(error);
   }
