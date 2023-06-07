@@ -11,7 +11,7 @@ const dbConnect = (url)=>{
       // useCreateIndex: true,
       // useFindAndModify: false,
     })
-    .then(() => console.log("MongoDB Connected..."))
+    .then(() => console.log("MongoDB Atlas Connected..."))
     .catch((err) => console.log(err));
 }
 

@@ -3,13 +3,13 @@ const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const config = require("./config/key");
+
 const newsRouter = require("./routes/newsRouter");
-const { setAllBdChannels, setAllWorldChannels } = require("./controllers/newsController");
+
 const dbConnect = require("./db/connect");
 const notFound = require("./middlewares/not-found");
 
-const port = 8080;
+const port = 9000;
 
 app.use(cors())
 app.use("/api/v1/newschannels", newsRouter);
@@ -17,10 +17,8 @@ app.use(notFound);
 
 const start = async () => {
   try {
-    const dbc = await dbConnect(config.mongoURI);
+    const dbc = await dbConnect("mongodb+srv://rifat:908614@newshub.glyb33v.mongodb.net/?retryWrites=true&w=majority");
     app.listen(port, () => console.log(`Server is listening on port ${port}`));
-    setImmediate(setAllBdChannels);
-    setImmediate(setAllWorldChannels);
   } catch (error) {
     console.log(error);
   }
@@ -28,4 +26,4 @@ const start = async () => {
 
 start();
 
-// setInterval(setAllBdChannels, 5000);
+

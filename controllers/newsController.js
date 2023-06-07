@@ -1,8 +1,7 @@
-const {BdNewsChannel,WorldNewsChannel} = require("../models/NewsChannel");
+const { BdNewsChannel, WorldNewsChannel } = require("../models/NewsChannel");
 const axios = require("axios");
 
 const { json } = require("express");
-const NewsChannel = require("../models/NewsChannel");
 const { bdUrls, worldUrls } = require("../config/url");
 
 const getAllBdChannels = async (req, res, next) => {
@@ -19,12 +18,8 @@ const getAllWorldChannels = async (req, res, next) => {
   // res.send("All chanels are from database")
 };
 
-
-
-const putReqBd = bdUrls.map((url) => axios.get(url));
-const putReqWorld = worldUrls.map((url) => axios.get(url));
-
-const setAllBdChannels = async () => {
+const setAllBdChannels = async (req, res) => {
+  const putReqBd = bdUrls.map((url) => axios.get(url));
   let fetchedChannels = [];
 
   await axios
@@ -53,9 +48,8 @@ const setAllBdChannels = async () => {
               upsert: true,
             }
           );
-
-          console.log(updatedChannelList);
         });
+        res.json({ fetchedChannels });
       })
     )
 
@@ -65,7 +59,8 @@ const setAllBdChannels = async () => {
     });
 };
 
-const setAllWorldChannels = async () => {
+const setAllWorldChannels = async (req, res) => {
+  const putReqWorld = worldUrls.map((url) => axios.get(url));
   let fetchedChannels = [];
 
   await axios
@@ -94,9 +89,8 @@ const setAllWorldChannels = async () => {
               upsert: true,
             }
           );
-
-          console.log(updatedChannelList);
         });
+        res.json({ fetchedChannels });
       })
     )
 
@@ -106,4 +100,9 @@ const setAllWorldChannels = async () => {
     });
 };
 
-module.exports = { getAllBdChannels, setAllBdChannels,getAllWorldChannels,setAllWorldChannels };
+module.exports = {
+  getAllBdChannels,
+  setAllBdChannels,
+  getAllWorldChannels,
+  setAllWorldChannels,
+};
